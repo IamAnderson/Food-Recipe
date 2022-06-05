@@ -1,0 +1,217 @@
+publisher
+title
+source_url
+recipe_id
+image_url
+social_rank
+publisher_url
+
+
+//No Public Key needed
+https://forkify-api.herokuapp.com/api/search?q=chicken
+
+
+
+  getRecipe = async (e) => {
+    const recipeName = e.target.elements.recipeName.value;
+    e.preventDefault();
+    const api_call = await fetch(`https://forkify-api.herokuapp.com/api/search?&q=${recipeName}`);
+
+    const data = await api_call.json();
+    this.setState({ recipes: data.recipes });
+   
+  }
+
+
+
+
+        <Container>
+        <Navbar />
+        <SearchFeed getRecipe={this.getRecipe}/>
+
+        <Grid>
+          <Recipes recipes={this.state.recipes} />
+        </Grid>
+
+      </Container>
+
+
+
+
+        const getRecipe = () => {
+    axios.get(`https://api.spoonacular.com/recipes/complexSearch`)
+    .then((response) => {
+      console.log(response);
+     // setRecipe(response.data.recipes)
+    })
+
+    .catch((error) => {
+      console.log('error is present...', error)
+    })
+  }
+
+
+  label = recipeName
+  url = recipeurl
+
+
+
+  .length < 20 ? item.title : `${item.title.substring(0, 25)}...`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  import React from 'react'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    margin: 2rem;
+    //border: 1px solid #000;
+    box-shadow: 1px 1px 3px #002c2c ;
+`
+
+const ImgArea = styled.div`
+    width: 20rem;
+    height: 400px;
+`
+
+const Img = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`
+
+const DescArea = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+`
+
+const Title = styled.h3`
+    font-size: 1.2rem;
+    color: #024444;
+    cursor: default;
+`
+
+const Publisher = styled.div`
+    display: flex;
+    align-items: center;
+`
+
+const PublisherLink = styled.a`
+    font-size: 1.2rem;
+    margin-left: 0.5rem;
+    font-weight: 600;
+    color: #024444;
+    text-decoration: none;
+
+    &:hover{
+        color: #ff3c00;
+    }
+`
+
+const BtnArea = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+`
+
+const ViewMore = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.2rem;
+    padding: 1.25rem 2rem;
+    color: #000;
+    border: 1px solid #00808024;
+    border-bottom-right-radius: 50%;
+    outline: none;
+`
+
+const Recipes = () => {
+  return (
+
+  )
+}
+
+export default Recipes
+
+
+
+
+
+
+
+
+<RecipeContainer key={index}>
+                        <ImgArea>
+                            <Img src={item.image} alt={item.label} />
+                        </ImgArea>
+
+                        <DescArea> 
+                            <Title>
+                                { item.label }
+                            </Title>
+
+                        <Publisher>
+                            <p style={{fontSize: '1.2rem', color: '#024444', fontWeight: '600'}}>Publisher:</p> 
+                            <PublisherLink target='_blank' href={item.url}>
+                                { item.source}
+                            </PublisherLink> 
+                        </Publisher>
+        
+                        </DescArea>
+
+                        <BtnArea>    
+                            <ViewMore>
+                                <Link to={{ pathname: `/recipe/${item.yield}`}} style={{textDecoration: 'none', color: '#024444'}}>
+                                    View More
+                                </Link>
+                            </ViewMore>
+                        </BtnArea>
+                    </RecipeContainer>
+
+
+
+
+
+
+
+                    //api
+                    
+    const options = {
+    method: 'GET',
+    url: 'https://edamam-recipe-search.p.rapidapi.com/search',
+    params: {q: `${endPoint}`},
+    headers: {
+      'X-RapidAPI-Host': 'edamam-recipe-search.p.rapidapi.com',
+      'X-RapidAPI-Key': '780cba7b1dmshb59c4503ec4b727p10c351jsn79a5227187bc'
+    }
+  };
+
+                          <Publisher>
+                            <p style={{fontSize: '1.2rem', color: '#024444', fontWeight: '600'}}>Publisher:</p> 
+                            <PublisherLink target='_blank' href={item.food.url}>
+                                { item.source}
+                            </PublisherLink> 
+                        </Publisher>
+  

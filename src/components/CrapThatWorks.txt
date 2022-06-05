@@ -1,0 +1,178 @@
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import axios from 'axios'
+import Navbar from '../components/Navbar'
+import SearchFeed from '../components/SearchFeed'
+import Recipes from '../components/Recipes'
+
+const Container = styled.div `
+
+`
+
+const Grid = styled.div `
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 2rem;
+  grid-gap: 2rem;
+  padding: 3rem 4rem;
+
+  /*display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 3rem 4rem;*/
+`
+
+
+const RecipeContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    margin: 2rem;
+    //border: 1px solid #000;
+    box-shadow: 1px 1px 3px #002c2c ;
+`
+
+const ImgArea = styled.div`
+    width: 20rem;
+    height: 400px;
+`
+
+const Img = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`
+
+const DescArea = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+`
+
+const Title = styled.h3`
+    font-size: 1.2rem;
+    color: #024444;
+    cursor: default;
+`
+
+const Publisher = styled.div`
+    display: flex;
+    align-items: center;
+`
+
+const PublisherLink = styled.a`
+    font-size: 1.2rem;
+    margin-left: 0.5rem;
+    font-weight: 600;
+    color: #024444;
+    text-decoration: none;
+
+    &:hover{
+        color: #ff3c00;
+    }
+`
+
+const BtnArea = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+`
+
+const ViewMore = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.2rem;
+    padding: 1.25rem 2rem;
+    color: #000;
+    border: 1px solid #00808024;
+    border-bottom-right-radius: 50%;
+    outline: none;
+`
+
+const Main = () => {
+
+  const [endPoint, setEndPoint] = useState('');
+  const [recipes, setRecipes] = useState([]);
+  
+  useEffect(() => {
+   doc();
+  }, [endPoint])
+
+
+const options = {
+  method: 'GET',
+  url: 'https://edamam-food-and-grocery-database.p.rapidapi.com/parser',
+  params: {ingr: `+${endPoint}`},
+  headers: {
+    'X-RapidAPI-Host': 'edamam-food-and-grocery-database.p.rapidapi.com',
+    'X-RapidAPI-Key': '780cba7b1dmshb59c4503ec4b727p10c351jsn79a5227187bc'
+  }
+};
+
+const doc = () => {
+  axios.request(options)
+  .then(function (response) {
+    console.log(response.data.hints);
+    setRecipes(response.data.hints);
+  })
+
+  .catch((error) => {
+    console.error(error);
+  });
+}
+
+const onChangeHandler = (e) => {
+  setEndPoint(e.target.value);
+}
+
+const handleOnSubmit = (e) => {
+  e.preventDefault();
+} 
+
+
+  return (
+    <Container>
+      <Navbar />
+      <SearchFeed endPoint={endPoint} onChangeHandler={onChangeHandler} handleOnSubmit={handleOnSubmit}/>
+
+      <Grid>
+        <>
+            {recipes.map((item) => {
+                return(
+                  <RecipeContainer key={item.food.foodId}>
+                        <ImgArea>
+                            <Img src={item.food.image} alt={item.food.label} />
+                        </ImgArea>
+
+                        <DescArea> 
+                            <Title>
+                                { item.food.label }
+                            </Title>
+        
+                        </DescArea>
+
+                        <BtnArea>    
+                            <ViewMore>
+                                <PublisherLink target='_blank' href={ item.food.uri } style={{textDecoration: 'none', color: '#024444'}}>
+                                    View Nutrients
+                                </PublisherLink>
+                            </ViewMore>
+                        </BtnArea>
+                    </RecipeContainer>
+
+                )
+            })}
+        </>
+      </Grid>
+
+  </Container>
+  )
+}
+
+export default Main
